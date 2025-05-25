@@ -72,3 +72,36 @@ def load_transactions(filename="data/financial_transactions.csv"):
 
     print(f"✅ {len(transactions)} transactions loaded.")
     return transactions
+
+
+# -----------------------------------------------------
+# Save Transactions to the CSV File
+# -----------------------------------------------------
+def save_transactions(transactions, filename="data/financial_transactions.csv"):
+    """
+    Saves all transactions to a CSV file.
+    It overwrites the current file to keep only the latest records.
+    Dates are converted back to string format for saving.
+    """
+    try:
+        with open(filename, "w", newline="") as file:
+            fieldnames = ['transaction_id', 'date', 'customer_id', 'amount', 'type', 'description']
+            writer = csv.DictWriter(file, fieldnames=fieldnames)
+            writer.writeheader()  # write column headers
+
+            for t in transactions:
+                writer.writerow({
+                    'transaction_id': t['transaction_id'],
+                    'date': t['date'].strftime('%Y-%m-%d'),  # convert date back to string
+                    'customer_id': t['customer_id'],
+                    'amount': t['amount'],
+                    'type': t['type'],
+                    'description': t['description']
+                })
+
+        print("💾 Transactions saved successfully.")
+
+    except Exception as e:
+        print(f"❌ Failed to save transactions: {e}")
+        log_error(f"Save error: {e}")
+
