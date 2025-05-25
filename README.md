@@ -25,7 +25,7 @@ This project is currently under development.
 
 
 ➡️ STEP 3: Add save_transactions() to finance_utils.py to complete Task 5 (file saving). 
-1. Add save_transactions() to finance_utils.py
+1. Add save_transactions() to finance_utils.py and Enhanced view_transactions() function
 2. Link it to menu option 7 in menu.py
 3. Ensure it runs from main.py
 4. Update README.md
