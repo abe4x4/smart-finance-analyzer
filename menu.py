@@ -1,11 +1,17 @@
 # menu.py
 from finance_utils import load_transactions, save_transactions
-from transaction_ops import add_transaction, view_transactions, update_transaction, delete_transaction
-from analysis import analyze_finances, generate_report, calculate_monthly_summary
+from transaction_ops import (
+    add_transaction,
+    view_transactions,
+    update_transaction,
+    delete_transaction,
+    view_transactions_from_file
+)
+
+# from analysis import analyze_finances, generate_report, calculate_monthly_summary
 
 # Global list to store the transactions in memory
 transactions = []
-
 
 def show_menu():
     """
@@ -25,9 +31,11 @@ def show_menu():
         print("7. Save Transactions")
         print("8. Generate Report")
         print("9. Monthly Summary (Income, Expenses, Balance)")
-        print("10. Exit")
+        print("10. View Transactions from File")
+        print("11. Exit")
+        print("==============================================")
 
-        choice = input("\nEnter your choice (1-10): ").strip()
+        choice = input("\nEnter your choice (1–11): ").strip()
 
         if choice == "1":
             transactions = load_transactions()
@@ -44,21 +52,24 @@ def show_menu():
         elif choice == "5":
             delete_transaction(transactions)
 
-        elif choice == "6":
-            analyze_finances(transactions)
+        # elif choice == "6":
+            # analyze_finances(transactions)
 
         elif choice == "7":
             save_transactions(transactions)
 
-        elif choice == "8":
-            generate_report(transactions)
+        # elif choice == "8":
+            # generate_report(transactions)
 
-        elif choice == "9":
-            calculate_monthly_summary(transactions)
+        # elif choice == "9":
+            # calculate_monthly_summary(transactions)
 
         elif choice == "10":
+            view_transactions_from_file()
+
+        elif choice == "11":
             print("👋 Exiting the program. Goodbye!")
             break
 
         else:
-            print("⚠️ Invalid choice. Please enter a number between 1 and 10.")
+            print("⚠️ Invalid choice. Please enter a number between 1 and 11.")
