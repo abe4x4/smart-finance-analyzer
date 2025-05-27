@@ -7,6 +7,8 @@ from transaction_ops import (
     delete_transaction,
     view_transactions_from_file
 )
+from analysis import analyze_finances
+
 
 # from analysis import analyze_finances, generate_report, calculate_monthly_summary
 
@@ -52,8 +54,8 @@ def show_menu():
         elif choice == "5":
             delete_transaction(transactions)
 
-        # elif choice == "6":
-            # analyze_finances(transactions)
+        elif choice == "6":
+            analyze_finances(transactions)
 
         elif choice == "7":
             save_transactions(transactions)
