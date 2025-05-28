@@ -47,18 +47,3 @@ This project is currently under development.
 1. Total credits, total debits, and total transfers
 2. Net balance (credits minus debits)
 3. A breakdown of totals by transaction type
-
-
-
-
-
-
-
-
-Fixed CSV file location and naming
-
-Debugged empty loads by verifying the actual data
-
-Implemented and validated a clean, formatted output of all file-based transactions
-
-Confirmed your CLI option (10) is functional and professional
