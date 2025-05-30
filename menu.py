@@ -1,6 +1,6 @@
 # menu.py
-from finance_utils import load_transactions, save_transactions
-from transaction_ops import (
+from utils.finance_utils import load_transactions, save_transactions
+from utils.transaction_ops import (
     add_transaction,
     view_transactions,
     update_transaction,
@@ -8,9 +8,7 @@ from transaction_ops import (
     view_transactions_from_file
 )
 from analysis import analyze_finances
-
-
-# from analysis import analyze_finances, generate_report, calculate_monthly_summary
+# from analysis import generate_report, calculate_monthly_summary
 
 # Global list to store the transactions in memory
 transactions = []
@@ -41,33 +39,40 @@ def show_menu():
 
         if choice == "1":
             transactions = load_transactions()
-
+            
         elif choice == "2":
             add_transaction(transactions)
+            print("✅ Transaction added.")
 
         elif choice == "3":
             view_transactions(transactions)
+            print("📄 Displayed all in-memory transactions.")
 
         elif choice == "4":
             update_transaction(transactions)
+            print("✏️ Transaction update attempted.")
 
         elif choice == "5":
             delete_transaction(transactions)
+            print("🗑️ Transaction deletion attempted.")
 
         elif choice == "6":
             analyze_finances(transactions)
+            print("📊 Financial analysis complete.")
 
         elif choice == "7":
             save_transactions(transactions)
+    
 
-        # elif choice == "8":
-            # generate_report(transactions)
+        elif choice == "8":
+            print("⚠️ Report generation not yet implemented.")
 
-        # elif choice == "9":
-            # calculate_monthly_summary(transactions)
+        elif choice == "9":
+            print("⚠️ Monthly summary not yet implemented.")
 
         elif choice == "10":
             view_transactions_from_file()
+        
 
         elif choice == "11":
             print("👋 Exiting the program. Goodbye!")
