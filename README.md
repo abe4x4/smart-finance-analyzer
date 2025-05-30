@@ -8,38 +8,22 @@ This project was created as the Capstone Project for the Code You “Introductio
 
 ## 📁 Project Structure  
 smart-finance-analyzer/  
-
 │  
-
 ├── data/ # Contains the main CSV file and backups  
-
 │ ├── financial_transactions.csv  
-
 │ └── backup/  
-
 │ └── financial_transactions_original.csv  
-
 │  
-
 ├── utils/ # Utility modules for finance and transaction logic  
-
 │ ├── finance_utils.py  
-
 │ └── transaction_ops.py  
-
 │
 ├── tests/ # Placeholder for future test files  
-
 │  
-
 ├── menu.py # CLI menu logic that routes user input  
-
 ├── main.py # Entry point that runs the program  
-
 ├── analysis.py # Contains financial summary logic  
-
 ├── errors.txt # Logs any CSV parsing or input errors  
-
 └── README.md # Project overview and development log  
 
 
