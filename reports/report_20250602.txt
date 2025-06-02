@@ -1,0 +1,13 @@
+Smart Personal Finance Analyzer Report
+Generated on: 2025-06-02 01:19:25
+Date Range: 2018-04-15 to 2025-05-29
+
+Total Credits   : $46959.08
+Total Debits    : $45429.59
+Total Transfers : $13787.27
+Net Balance     : $1529.49
+
+By Type:
+  Credit    : $46959.08
+  Debit     : $45429.59
+  Transfer  : $13787.27

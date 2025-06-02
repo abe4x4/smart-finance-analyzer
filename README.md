@@ -62,6 +62,22 @@ smart-finance-analyzer/
   - Net balance
   - Breakdown of totals by transaction type
 
+### ➡️ STEP 7: Save and Generate Reports
+
+- save_transactions(): Saves the current in-memory transactions to financial_transactions.csv.
+
+- Backs up the original CSV (if not already backed up) to data/backup/.
+
+- generate_report(): Creates a summary report with totals, date range, and timestamp, and saves it to data/reports/report_YYYYMMDD.txt.
+
+📈 Next Steps
+
+Step 8: Implement Monthly Summary of Income/Expenses/Balance
+
+Step 9: Add Optional Bonus Features (Filters, Unique ID tracker, etc.)
+
+Add Unit Tests and Test Folder
+
 ---
 
 ## 📝 Git Commit Summary
@@ -72,6 +88,7 @@ smart-finance-analyzer/
 - ✅ Step 4: Add/view transactions from memory and file
 - ✅ Step 5: Add transaction update/delete functionality
 - ✅ Step 6: Implement financial summary report
+- ✅ Step 7: Save and generate reports
 
 ---
 
