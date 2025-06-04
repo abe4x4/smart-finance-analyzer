@@ -1,6 +1,115 @@
-from collections import defaultdict
-import os
 from datetime import datetime
+import os
+import shutil
+import csv
+from collections import defaultdict
+
+# -----------------------------------------------------
+# HELPER FUNCTION: Parse a single transaction row
+# -----------------------------------------------------
+def parse_transaction_row(row):
+    """
+    Validate and convert a CSV row into a transaction dictionary.
+    Returns a valid transaction dictionary or raises ValueError.
+
+    Expected CSV fields:
+      - transaction_id: int
+      - date: string in YYYY-MM-DD format
+      - customer_id: int
+      - amount: float
+      - type: 'credit', 'debit', or 'transfer'
+      - description: string
+    """
+    try:
+        transaction = {
+            'transaction_id': int(row['transaction_id']),
+            'date': datetime.strptime(row['date'], '%Y-%m-%d'),
+            'customer_id': int(row['customer_id']),
+            'amount': float(row['amount']),
+            'type': row['type'].strip().lower(),
+            'description': row['description'].strip()
+        }
+
+        if transaction['type'] not in ['credit', 'debit', 'transfer']:
+            raise ValueError(f"Invalid transaction type: {transaction['type']}")
+
+        if transaction['type'] == 'debit':
+            transaction['amount'] = -abs(transaction['amount'])
+
+        return transaction
+
+    except Exception as e:
+        raise ValueError(f"Row parsing error: {e}")
+
+# -----------------------------------------------------
+# LOAD transactions from CSV
+# -----------------------------------------------------
+def load_transactions(filename='data/financial_transactions.csv'):
+    """
+    Load transactions from a CSV file.
+    Returns a list of transaction dictionaries.
+    Skips rows with invalid data and logs errors.
+    """
+    transactions = []
+    try:
+        with open(filename, newline='', encoding='utf-8') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                try:
+                    transaction = parse_transaction_row(row)
+                    transactions.append(transaction)
+                except Exception as e:
+                    with open("errors.txt", "a") as err_file:
+                        err_file.write(f"Skipping row due to error: {e}\n")
+
+        print(f"✅ {len(transactions)} transactions successfully loaded from {filename}")
+        return transactions
+
+    except FileNotFoundError:
+        print(f"❌ File not found: {filename}")
+        return []
+
+    except Exception as e:
+        print(f"❌ Error loading transactions: {e}")
+        return []
+
+# -----------------------------------------------------
+# SAVE transactions to CSV and BACKUP original if not yet saved
+# -----------------------------------------------------
+def save_transactions(transactions, filename='data/financial_transactions.csv'):
+    """
+    Save a list of transactions to a CSV file.
+    If a backup of the original file doesn't exist, create it first in the backup folder.
+    """
+    backup_path = 'data/backup/financial_transactions_original.csv'
+
+    # If backup file doesn't exist, create it
+    if not os.path.exists(backup_path):
+        os.makedirs(os.path.dirname(backup_path), exist_ok=True)
+        if os.path.exists(filename):
+            shutil.copy(filename, backup_path)
+            print(f"📦 Original CSV backed up to {backup_path}")
+        else:
+            print("⚠️ Warning: No original file found to backup.")
+
+    # Write current transactions to CSV
+    try:
+        with open(filename, 'w', newline='', encoding='utf-8') as f:
+            writer = csv.DictWriter(f, fieldnames=['transaction_id', 'date', 'customer_id', 'amount', 'type', 'description'])
+            writer.writeheader()
+            for t in transactions:
+                writer.writerow({
+                    'transaction_id': t['transaction_id'],
+                    'date': t['date'].strftime('%Y-%m-%d'),
+                    'customer_id': t['customer_id'],
+                    'amount': t['amount'],
+                    'type': t['type'],
+                    'description': t['description']
+                })
+        print(f"💾 Transactions saved to {filename}")
+
+    except Exception as e:
+        print(f"❌ Error saving transactions: {e}")
 
 # -----------------------------------------------------
 # ANALYZE: Financial Summary
@@ -9,90 +118,92 @@ def analyze_finances(transactions):
     """
     Calculates and displays total credits, debits, transfers, and net balance.
     Also shows grouped totals by type.
-    
-    Parameters:
-    - transactions (list): A list of transaction dictionaries.
-    
-    Each transaction must contain:
-      - 'type': 'credit', 'debit', or 'transfer'
-      - 'amount': float (debits are stored as negative)
     """
     print("\n--- Financial Summary ---")
-
-    # Initialize a dictionary to hold totals by transaction type
     totals = defaultdict(float)
-
-    # Loop through transactions and sum by type
     for t in transactions:
         t_type = t['type']
-        totals[t_type] += t['amount']  # debit is already negative
+        totals[t_type] += t['amount']
 
-    # Extract and format values for display
     total_credit = totals['credit']
-    total_debit = abs(totals['debit'])  # show as positive
+    total_debit = abs(totals['debit'])
     total_transfer = totals['transfer']
     net_balance = total_credit - total_debit
 
-    # Display main summary
     print(f"Total Credits:   ${total_credit:,.2f}")
     print(f"Total Debits:    ${total_debit:,.2f}")
     print(f"Total Transfers: ${total_transfer:,.2f}")
     print(f"Net Balance:     ${net_balance:,.2f}")
 
-    # Show totals by transaction type
     print("\nBy Type:")
     for t_type, amount in totals.items():
         print(f"  {t_type.title():<10}: ${abs(amount):,.2f}")
 
 # -----------------------------------------------------
-# GENERATE REPORT: Save Summary to File
+# GENERATE: Summary Report to Text File
 # -----------------------------------------------------
 def generate_report(transactions, output_dir='reports'):
     """
     Generate a financial summary report and save it as a text file with a timestamp.
-    Includes totals, net balance, and the date range of transactions.
-    
-    Parameters:
-    - transactions (list): List of transaction dictionaries
-    - output_dir (str): Folder to save the report file
+    The report includes totals by type and net balance.
     """
     if not transactions:
         print("⚠️ No transactions to generate a report.")
         return
 
-    # Step 1: Calculate totals
-    totals = defaultdict(float)
+    totals = {'credit': 0, 'debit': 0, 'transfer': 0}
     for t in transactions:
-        totals[t['type']] += t['amount']  # debit remains negative
+        totals[t['type']] += abs(t['amount'])
+    net_balance = totals['credit'] - totals['debit']
 
-    net_balance = totals['credit'] - abs(totals['debit'])
-
-    # Step 2: Get date range
     dates = [t['date'] for t in transactions]
     start_date = min(dates).strftime('%Y-%m-%d')
     end_date = max(dates).strftime('%Y-%m-%d')
 
-    # Step 3: Ensure output directory exists
     os.makedirs(output_dir, exist_ok=True)
-
-    # Step 4: Create timestamped filename
     today_str = datetime.today().strftime('%Y%m%d')
     filename = os.path.join(output_dir, f"report_{today_str}.txt")
 
-    # Step 5: Write the report to file
     try:
         with open(filename, 'w') as f:
             f.write("Smart Personal Finance Analyzer Report\n")
             f.write(f"Generated on: {datetime.today().strftime('%Y-%m-%d %H:%M:%S')}\n")
             f.write(f"Date Range: {start_date} to {end_date}\n\n")
             f.write(f"Total Credits   : ${totals['credit']:.2f}\n")
-            f.write(f"Total Debits    : ${abs(totals['debit']):.2f}\n")
+            f.write(f"Total Debits    : ${totals['debit']:.2f}\n")
             f.write(f"Total Transfers : ${totals['transfer']:.2f}\n")
-            f.write(f"Net Balance     : ${net_balance:.2f}\n\n")
-            f.write("By Type:\n")
+            f.write(f"Net Balance     : ${net_balance:.2f}\n")
+            f.write("\nBy Type:\n")
             for ttype, amount in totals.items():
-                f.write(f"  {ttype.capitalize():<10}: ${abs(amount):.2f}\n")
+                f.write(f"  {ttype.capitalize():<10}: ${amount:.2f}\n")
 
         print(f"📄 Report successfully saved to {filename}")
     except Exception as e:
         print(f"❌ Error saving report: {e}")
+
+# -----------------------------------------------------
+# MONTHLY SUMMARY: Step 8 & 9
+# -----------------------------------------------------
+def calculate_monthly_summary(transactions):
+    """
+    Calculates and prints total income (credits), expenses (debits),
+    and net balance per month.
+    """
+    if not transactions:
+        print("⚠️ No transactions available to summarize.")
+        return
+
+    print("\n--- Monthly Summary ---")
+    summary = defaultdict(lambda: {'credit': 0.0, 'debit': 0.0})
+    for t in transactions:
+        month_key = t['date'].strftime('%Y-%m')
+        if t['type'] == 'credit':
+            summary[month_key]['credit'] += t['amount']
+        elif t['type'] == 'debit':
+            summary[month_key]['debit'] += abs(t['amount'])
+
+    for month in sorted(summary.keys()):
+        credit = summary[month]['credit']
+        debit = summary[month]['debit']
+        net = credit - debit
+        print(f"{month} => Income: ${credit:.2f}, Expenses: ${debit:.2f}, Net: ${net:.2f}")

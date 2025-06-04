@@ -9,25 +9,25 @@ This project was created as the Capstone Project for the Code You “Introductio
 ## 📁 Project Structure  
 smart-finance-analyzer/  
 │  
-├── data/ # Contains the main CSV file and backups  
-│ ├── financial_transactions.csv  
-│ └── backup/  
-│ └── financial_transactions_original.csv  
+├── data/                   # Contains the main CSV file and backups  
+│   ├── financial_transactions.csv  
+│   └── backup/  
+│       └── financial_transactions_original.csv  
 │  
-├── utils/ # Utility modules for finance and transaction logic  
-│ ├── finance_utils.py  
-│ └── transaction_ops.py  
-│
-├── tests/ # Placeholder for future test files  
+├── utils/                  # Utility modules for finance and transaction logic  
+│   ├── finance_utils.py   # File handling, error logging, saving/loading
+│   └── transaction_ops.py # CRUD operations (add, update, delete, view)  
 │  
-├── menu.py # CLI menu logic that routes user input  
-├── main.py # Entry point that runs the program  
-├── analysis.py # Contains financial summary logic  
-├── errors.txt # Logs any CSV parsing or input errors  
-└── README.md # Project overview and development log  
+├── reports/               # Stores generated financial summary reports  
+│  
+├── tests/                 # Placeholder for future unit tests  
+│  
+├── menu.py                # CLI menu logic that routes user input  
+├── main.py                # Entry point that runs the program  
+├── errors.txt             # Logs any CSV parsing or input errors  
+└── README.md              # Project overview and development log  
 
-
-
+---
 
 ## ✅ Completed Steps & Features
 
@@ -39,64 +39,57 @@ smart-finance-analyzer/
 - Added .gitignore and initial README
 
 ### ➡️ STEP 2: Load Transactions and Log Errors
-- Implemented load_transactions() to read a CSV file into memory
-- Used datetime for date parsing, and error handling with try-except blocks
-- Created log_error() logic to write issues to errors.txt
+- Implemented `load_transactions()` to read a CSV file into memory
+- Used `datetime` for date parsing, and error handling with try-except blocks
+- Created `log_error()` logic to write issues to `errors.txt`
 
 ### ➡️ STEP 3: Save Transactions to File
-- Implemented save_transactions() to write the updated transaction list back to the CSV
+- Implemented `save_transactions()` to write the updated transaction list back to the CSV
 - Automatically backs up the original file before saving
 
 ### ➡️ STEP 4: Add & View Transactions
-- add_transaction(): lets the user add a new transaction with validation
-- view_transactions(): displays all current transactions with proper formatting
-- view_transactions_from_file(): reads directly from the CSV file to display saved transactions
+- `add_transaction()`: lets the user add a new transaction with validation
+- `view_transactions()`: displays all current transactions with proper formatting
+- `view_transactions_from_file()`: reads directly from the CSV file to display saved transactions
 
 ### ➡️ STEP 5: Update & Delete Transactions
-- update_transaction(): allows users to edit specific fields in a selected transaction
-- delete_transaction(): deletes a transaction after confirmation
+- `update_transaction()`: allows users to edit specific fields in a selected transaction
+- `delete_transaction()`: deletes a transaction after confirmation
 
 ### ➡️ STEP 6: Analyze Financial Data
-- analyze_finances(): Calculates and prints:
+- `analyze_finances()` calculates and prints:
   - Total credits, debits, and transfers
   - Net balance
   - Breakdown of totals by transaction type
 
 ### ➡️ STEP 7: Save and Generate Reports
+- `save_transactions()` saves the current in-memory transactions to `financial_transactions.csv`
+- Automatically backs up the original CSV (if not already backed up) to `data/backup/`
+- `generate_report()` creates a summary report with totals, date range, and timestamp, and saves it to `reports/report_YYYYMMDD.txt`
 
-- save_transactions(): Saves the current in-memory transactions to financial_transactions.csv.
-
-- Backs up the original CSV (if not already backed up) to data/backup/.
-
-- generate_report(): Creates a summary report with totals, date range, and timestamp, and saves it to data/reports/report_YYYYMMDD.txt.
-
-📈 Next Steps
-
-Step 8: Implement Monthly Summary of Income/Expenses/Balance
-
-Step 9: Add Optional Bonus Features (Filters, Unique ID tracker, etc.)
-
-Add Unit Tests and Test Folder
+### ➡️ STEP 8: Monthly Summary
+- `calculate_monthly_summary()` calculates and prints monthly totals of:
+  - Income (credit)
+  - Expenses (debit)
+  - Net balance
 
 ---
 
 ## 📝 Git Commit Summary
 
-- ✅ Step 1: Setup project, virtualenv, folders, README, and .gitignore
-- ✅ Step 2: Implemented transaction loader and error logger
-- ✅ Step 3: Added file-saving logic and CSV backup
-- ✅ Step 4: Add/view transactions from memory and file
-- ✅ Step 5: Add transaction update/delete functionality
-- ✅ Step 6: Implement financial summary report
-- ✅ Step 7: Save and generate reports
+- ✅ Step 1: Setup project, virtualenv, folders, README, and .gitignore  
+- ✅ Step 2: Implemented transaction loader and error logger  
+- ✅ Step 3: Added file-saving logic and CSV backup  
+- ✅ Step 4: Add/view transactions from memory and file  
+- ✅ Step 5: Add transaction update/delete functionality  
+- ✅ Step 6: Implement financial summary logic  
+- ✅ Step 7: Generate summary reports and save to file  
+- ✅ Step 8: Monthly breakdown by income, expenses, and net  
 
 ---
 
-## 🚧 Upcoming Steps
+## 📈 Upcoming Steps
 
-- Step 7: Generate reports and summaries
-- Step 8: Implement monthly summary breakdown
-- Step 9: Optional Bonus Features (filters, year analysis, etc.)
-- Add unit tests to /tests folder
-
----
+- ➡️ Step 9: Optional Bonus Features (filters, year-specific analysis, type filtering, etc.)  
+- ➡️ Step 10: Add unit tests inside the `tests/` folder  
+- ➡️ Improve formatting, validations, and modularity for bonus round  
