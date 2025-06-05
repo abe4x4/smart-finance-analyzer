@@ -117,27 +117,24 @@ def save_transactions(transactions, filename='data/financial_transactions.csv'):
 def analyze_finances(transactions):
     """
     Calculates and displays total credits, debits, transfers, and net balance.
-    Also shows grouped totals by type.
     """
-    print("\n--- Financial Summary ---")
+    print("\n--- Financial Summary ---\n")
     totals = defaultdict(float)
+
     for t in transactions:
         t_type = t['type']
         totals[t_type] += t['amount']
 
     total_credit = totals['credit']
-    total_debit = abs(totals['debit'])
+    total_debit = abs(totals['debit'])  # Show as positive
     total_transfer = totals['transfer']
     net_balance = total_credit - total_debit
 
-    print(f"Total Credits:   ${total_credit:,.2f}")
-    print(f"Total Debits:    ${total_debit:,.2f}")
-    print(f"Total Transfers: ${total_transfer:,.2f}")
-    print(f"Net Balance:     ${net_balance:,.2f}")
+    print(f"Total Credits   : ${total_credit:,.2f}")
+    print(f"Total Debits    : ${total_debit:,.2f}")
+    print(f"Total Transfers : ${total_transfer:,.2f}")
+    print(f"Net Balance     : ${net_balance:,.2f}")
 
-    print("\nBy Type:")
-    for t_type, amount in totals.items():
-        print(f"  {t_type.title():<10}: ${abs(amount):,.2f}")
 
 # -----------------------------------------------------
 # GENERATE: Summary Report to Text File
