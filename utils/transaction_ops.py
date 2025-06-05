@@ -3,7 +3,7 @@ from utils.analysis import load_transactions
 
 
 # -----------------------------------------------------
-# ADD a new transaction to the list (with auto defaults)
+# Option 2. ADD a new transaction to the list (with auto defaults)
 # -----------------------------------------------------
 def add_transaction(transactions):
     """
@@ -78,7 +78,7 @@ def add_transaction(transactions):
         print(f"❌ Input error: {e}")
 
 # -----------------------------------------------------
-# VIEW all in-memory transactions in table format
+# Option 3. VIEW all in-memory transactions in table format
 # -----------------------------------------------------
 def view_transactions(transactions):
     """
@@ -106,7 +106,7 @@ def view_transactions(transactions):
         ))
 
 # -----------------------------------------------------
-# VIEW transactions from the CSV file
+# Option 11. VIEW transactions from the CSV file
 # -----------------------------------------------------
 def view_transactions_from_file():
     """
@@ -139,7 +139,7 @@ def view_transactions_from_file():
         print(f"❌ Failed to load or display transactions from file: {e}")
 
 # -----------------------------------------------------
-# UPDATE a specific transaction by ID
+# Option 4. UPDATE a specific transaction by ID
 # -----------------------------------------------------
 def update_transaction(transactions):
     """
@@ -182,7 +182,7 @@ def update_transaction(transactions):
         print(f"❌ Error: {e}")
 
 # -----------------------------------------------------
-# DELETE a transaction by ID
+# Option 5. DELETE a transaction by ID
 # -----------------------------------------------------
 def delete_transaction(transactions):
     """
@@ -216,7 +216,7 @@ def delete_transaction(transactions):
         print(f"❌ Error: {e}")
 
 # -----------------------------------------------------
-# Filter Transactions by Year
+# Option 10. Filter Transactions by Year
 # -----------------------------------------------------
 def filter_transactions_by_year(transactions):
     """

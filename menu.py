@@ -16,7 +16,6 @@ from utils.transaction_ops import (
     filter_transactions_by_year
 )
 
-from utils.analysis import analyze_finances, generate_report, calculate_monthly_summary
 
 # Global list to store the transactions in memory
 transactions = []

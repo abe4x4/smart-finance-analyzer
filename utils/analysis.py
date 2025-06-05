@@ -42,7 +42,7 @@ def parse_transaction_row(row):
         raise ValueError(f"Row parsing error: {e}")
 
 # -----------------------------------------------------
-# LOAD transactions from CSV
+# Option 1. LOAD transactions from CSV file
 # -----------------------------------------------------
 def load_transactions(filename='data/financial_transactions.csv'):
     """
@@ -74,7 +74,7 @@ def load_transactions(filename='data/financial_transactions.csv'):
         return []
 
 # -----------------------------------------------------
-# SAVE transactions to CSV and BACKUP original if not yet saved
+# Option 7. SAVE transactions to CSV and BACKUP original if not yet saved
 # -----------------------------------------------------
 def save_transactions(transactions, filename='data/financial_transactions.csv'):
     """
@@ -112,7 +112,7 @@ def save_transactions(transactions, filename='data/financial_transactions.csv'):
         print(f"❌ Error saving transactions: {e}")
 
 # -----------------------------------------------------
-# ANALYZE: Financial Summary
+# Option 6. ANALYZE: Financial Summary
 # -----------------------------------------------------
 def analyze_finances(transactions):
     """
@@ -137,7 +137,7 @@ def analyze_finances(transactions):
 
 
 # -----------------------------------------------------
-# GENERATE: Summary Report to Text File
+# Option 8. GENERATE: Summary Report to Text File
 # -----------------------------------------------------
 def generate_report(transactions, output_dir='reports'):
     """
